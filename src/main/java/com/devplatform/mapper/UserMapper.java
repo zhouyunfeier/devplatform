@@ -1,8 +1,11 @@
 package com.devplatform.mapper;
+import com.devplatform.entity.Member;
 import com.devplatform.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Mapper
@@ -27,5 +30,6 @@ public interface UserMapper{
     int updateEmail(@Param("username") String username,@Param("email") String email);
 
     int IfEmailisExist(@Param("email") String email);
+
 
 }

@@ -1,5 +1,6 @@
 package com.devplatform.mapper;
 
+import com.devplatform.entity.Member;
 import com.devplatform.entity.Project;
 import com.devplatform.entity.Team;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,6 @@ public interface ProjectMapper {
     int addMember(Team team);
 
     List<Team> getMembers(@Param("projectid") String projectid);
+
+    List<Member> getMemberInfo(@Param("projectid") String projectid);
 }

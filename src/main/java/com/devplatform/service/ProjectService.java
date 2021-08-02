@@ -29,4 +29,6 @@ public interface ProjectService {
     boolean eqToken(String token);
 
     Result getMembers(String projectid);
+
+    Result getProjectInfo(String projectid);
 }

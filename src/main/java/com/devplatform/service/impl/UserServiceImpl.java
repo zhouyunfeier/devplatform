@@ -77,35 +77,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result register(User user) {
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String email = user.getEmail();
-        username = HtmlUtils.htmlEscape(username);
-        user.setUsername(username);
-
-        boolean name_exist = isExist(username);
-        boolean emial_exist = EmailisExist(email);
-
-        if (name_exist){
-            return Result.fail("用户名已被使用");
-        }
-        if (emial_exist){
-            return Result.fail("邮箱已被使用");
-        }
-
-        String userid = "U"+GenerateID.getGeneratID();
-        user.setUserid(userid);
-        user.setAvatar("http://localhost:8080/avatar/e105b3db2b78b553bad52ded8514f4c6.jpg");
-        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-        int times = 2;
-        String encodePassword = new SimpleHash("md5",password,salt,times).toString();
-        user.setSalt(salt);
-        user.setPassword(encodePassword);
         try {
+            String username = user.getUsername();
+            String password = user.getPassword();
+            String email = user.getEmail();
+            username = HtmlUtils.htmlEscape(username);
+            user.setUsername(username);
+
+            boolean name_exist = isExist(username);
+            boolean emial_exist = EmailisExist(email);
+
+            if (name_exist){
+                return Result.fail("用户名已被使用");
+            }
+            if (emial_exist){
+                return Result.fail("邮箱已被使用");
+            }
+
+            String userid = "U"+GenerateID.getGeneratID();
+            user.setUserid(userid);
+            user.setAvatar("http://localhost:8080/avatar/e105b3db2b78b553bad52ded8514f4c6.jpg");
+            String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+            int times = 2;
+            String encodePassword = new SimpleHash("md5",password,salt,times).toString();
+            user.setSalt(salt);
+            user.setPassword(encodePassword);
+
             add(user);
             return Result.success(user);
 
         }catch (Exception e){
+            System.out.println(e);
             return Result.fail(e.getMessage());
         }
     }

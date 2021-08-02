@@ -30,4 +30,8 @@
         select * from team where projectid = #{projectid}
     </select>
 
+    <select id="getMemberInfo" resultType="com.devplatform.entity.Member">
+        select a.username,a.avatar,b.status from user a left join team b on a.username = b.username where b.projectid = #{projectid}
+    </select>
+
 </mapper>

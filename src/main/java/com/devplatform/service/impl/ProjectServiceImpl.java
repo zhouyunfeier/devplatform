@@ -2,10 +2,7 @@ package com.devplatform.service.impl;
 
 
 import com.devplatform.email.CodeUtils;
-import com.devplatform.entity.EmailMessage;
-import com.devplatform.entity.PageInfo;
-import com.devplatform.entity.Project;
-import com.devplatform.entity.Team;
+import com.devplatform.entity.*;
 import com.devplatform.lang.Result;
 import com.devplatform.mapper.ProjectMapper;
 import com.devplatform.mapper.UserMapper;
@@ -179,6 +176,18 @@ public class ProjectServiceImpl implements ProjectService {
         }catch (Exception e){
             System.out.println(e);
             return Result.fail("获取团队成员信息失败");
+        }
+    }
+
+    @Override
+    public Result getProjectInfo(String projectid) {
+        try {
+            List<Member> list = projectMapper.getMemberInfo(projectid);
+            System.out.println(list);
+            return Result.success(list);
+        }catch (Exception e){
+            System.out.println(e);
+            return Result.fail("获取项目信息失败");
         }
     }
 }

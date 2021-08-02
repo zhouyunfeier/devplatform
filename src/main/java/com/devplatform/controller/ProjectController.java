@@ -52,4 +52,10 @@ public class ProjectController {
         System.out.println(projectid);
         return projectService.getMembers(projectid);
     }
+
+    @PostMapping("/projectinfo")
+    @ResponseBody
+    public Result getProjectInfo(@RequestParam("projectid") String projectid){
+        return projectService.getProjectInfo(projectid);
+    }
 }
