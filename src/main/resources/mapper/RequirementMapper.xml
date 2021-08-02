@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.mapper.RequirementMapper">
+    
+    <select id="getCountByProjectid" resultType="int">
+        select count(*) from requirement where projectid = #{projectid}
+    </select>
+
+
+    <select id="findAllByPage" resultType="com.devplatform.entity.Requirement">
+        select * from requirement where projectid = #{projectid}
+        limit #{start},#{size}
+    </select>
+
+
+    <insert id="saveRequirement">
+        insert into requirement(requirementid,title,founder,createDate,updateDate,projectid,requirementhtml,requirementtext)
+        values (#{requirementid},#{title},#{founder},#{createDate},#{updateDate},#{projectid},#{requirementhtml},#{requirementtext})
+    </insert>
+
+    <select id="getInfo" resultType="com.devplatform.entity.Requirement">
+        select * from requirement where requirementid = #{requirementid}
+    </select>
+
+    <delete id="deleteRequirement">
+        delete from requirement where requirementid = #{requirementid}
+    </delete>
+
+    <update id="updateTitle">
+        update requirement set title = #{title},updateDate = #{updateDate} where requirementid = #{requirementid}
+    </update>
+
+    <update id="updateRequirement">
+        update requirement set updateDate = #{updateDate},requirementtext = #{requirementtext},requirementhtml = #{requirementhtml} where requirementid = #{requirementid}
+    </update>
+</mapper>

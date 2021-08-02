@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.mapper.MilestoneMapper">
+
+    <select id="getAllCountByProjectid" resultType="int">
+        select count (*) from milestone where projectid = #{projectid}
+    </select>
+
+    <select id="getAllMilestoneByProjectid" resultType="com.devplatform.entity.Milestone">
+        select * from milestone where projectid = #{projectid}
+    </select>
+
+    <insert id="saveMilestone">
+        insert into milestone(milestoneid,projectid,createDate,endDate,user,percentage,status,milestonename,description) values
+        (#{milestoneid},#{projectid},#{createDate},#{endDate},#{user},#{percentage},#{status},#{milestonename},#{description})
+    </insert>
+
+</mapper>

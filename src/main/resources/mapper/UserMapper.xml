@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.mapper.UserMapper">
+    <select id="getUserByEmail" resultType="com.devplatform.entity.User">
+        select * from user where email = #{email}
+    </select>
+
+    <select id="getUserByUsername" resultType="com.devplatform.entity.User">
+        select * from user where username = #{username}
+    </select>
+
+    <insert id="save" parameterType="com.devplatform.entity.User">
+        insert into user(userid,username,password,email,salt,avatar) values (#{userid},#{username},#{password},#{email},#{salt},#{avatar})
+    </insert>
+
+    <select id="getByUsernameAndPassword" resultType="com.devplatform.entity.User">
+        select * from user where username=#{username} and password=#{password}
+    </select>
+
+    <select id="getUserNameByEmial" resultType="String">
+        select username from user where email = #{email}
+    </select>
+
+    <update id="updateAvatar">
+        update user set avatar = #{avatar} where username = #{username}
+    </update>
+
+    <select id="getAvatarByUsername" resultType="String">
+        select avatar from user where username = #{username}
+    </select>
+
+    <update id="updatePassword">
+        update user set password = #{password} where username = #{username}
+    </update>
+
+    <update id="updateEmail">
+        update user set email = #{email} where username = #{username}
+    </update>
+
+    <select id="IfEmailisExist" resultType="Integer">
+        select count(*) from user where email = #{email}
+    </select>
+</mapper>

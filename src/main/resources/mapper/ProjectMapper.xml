@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.mapper.ProjectMapper">
+
+    <select id="findAllByPage" resultType="com.devplatform.entity.Project">
+        select * from project where open = 1
+        <if test="founder != null and founder !='' ">
+            and founder = #{founder}
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(*) from project where open = 1
+        <if test="founder != null and founder !='' ">
+            and founder = #{founder}
+        </if>
+    </select>
+
+    <insert id="saveProject" parameterType="com.devplatform.entity.Project">
+        insert into project(projectid,name,description,createDate,updateDate,remarks,founder,open) values
+           (#{projectid},#{name},#{description},#{createDate},#{updateDate},#{remarks},#{founder},#{open})
+    </insert>
+
+    <insert id="addMember">
+        insert into team(teamid,projectid,username,status) values (#{teamid},#{projectid},#{username},#{status})
+    </insert>
+
+    <select id="getMembers" resultType="com.devplatform.entity.Team">
+        select * from team where projectid = #{projectid}
+    </select>
+
+</mapper>
