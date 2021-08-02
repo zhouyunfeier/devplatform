@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private static final String ip = "http://localhost";
 
-    private static final String static_root = "D:/devplatform_files/avatar";
+    private static final String static_root = "D:/devplatform_files";
 
     @Autowired
     UserMapper userMapper;
@@ -116,8 +116,7 @@ public class UserServiceImpl implements UserService {
     public Result uploadAvatar(String username, MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();                                                //获取原文件的名称
 //        String rootFilePath = System.getProperty("user.dir")+"/src/main/resources/files/"+originalFilename;  //获取文件的名字
-        String rootFilePath = static_root +"/"+ originalFilename;
-        System.out.println(rootFilePath);
+        String rootFilePath = static_root +"/avatar/"+ originalFilename;
         FileUtil.writeBytes(file.getBytes(),rootFilePath);
         //头像信息存入数据库
         String avatar = ip+":"+port+"/avatar/"+originalFilename;

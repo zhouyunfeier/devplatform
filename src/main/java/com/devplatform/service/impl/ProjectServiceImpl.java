@@ -10,6 +10,8 @@ import com.devplatform.service.ProjectService;
 import com.devplatform.util.GenerateID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -23,6 +25,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     CodeUtils codeUtils;
+
+    //静态文件夹目录
+    private static final String static_root = "D:/devplatform_files";
 
     @Override
     public Result getProjects(Integer currentPage) {
@@ -78,6 +83,11 @@ public class ProjectServiceImpl implements ProjectService {
         team.setUsername(project.getFounder());
         team.setTeamid("T"+GenerateID.getGeneratID());
         try {
+            String file_root = static_root + "/files/"+projectid;
+            File file = new File(file_root);
+            if (!file.exists()){
+                file.mkdir();
+            }
             projectMapper.saveProject(project);
             projectMapper.addMember(team);
             return Result.success("新建项目成功");
