@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -221,11 +222,11 @@ public class ProjectServiceImpl implements ProjectService {
                     file_list.add(file_item);
                 }
             }
-            HashMap<String,Object> hashMap = new HashMap<>();
-            hashMap.put("member_list",list);
-            hashMap.put("dir_list",dir_list);
-            hashMap.put("file_list",file_list);
-            return Result.success(hashMap);
+            Map<String,Object> map = new HashMap<>();
+            map.put("member_list",list);
+            map.put("dir_list",dir_list);
+            map.put("file_list",file_list);
+            return Result.success(map);
         }catch (Exception e){
             System.out.println(e);
             return Result.fail("获取项目信息失败");
