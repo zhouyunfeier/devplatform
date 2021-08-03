@@ -31,7 +31,8 @@
     </select>
 
     <select id="getMemberInfo" resultType="com.devplatform.entity.Member">
-        select a.username,a.avatar,b.status from user a left join team b on a.username = b.username where b.projectid = #{projectid}
+        select a.username,a.avatar,b.status from user a left join team b on a.username = b.username where b.projectid =
+        (select projectid from project where name = #{project} and founder = #{founder})
     </select>
 
 </mapper>

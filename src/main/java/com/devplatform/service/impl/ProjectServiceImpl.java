@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -83,10 +85,15 @@ public class ProjectServiceImpl implements ProjectService {
         team.setUsername(project.getFounder());
         team.setTeamid("T"+GenerateID.getGeneratID());
         try {
-            String file_root = static_root + "/files/"+projectid;
+            //每个用户的项目不能同名，不同用户的不同项目可以同名
+            String file_root = static_root + "/projects/"+project.getFounder()+"/"+project.getName()+"/blob/main";
+            System.out.println(file_root);
             File file = new File(file_root);
+            if (file.exists()){
+                return Result.fail("已经存在该名字的项目");
+            }
             if (!file.exists()){
-                file.mkdir();
+                file.mkdirs();
             }
             projectMapper.saveProject(project);
             projectMapper.addMember(team);
@@ -190,11 +197,35 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Result getProjectInfo(String projectid) {
+    public Result getProjectInfo(String project,String founder) {
         try {
-            List<Member> list = projectMapper.getMemberInfo(projectid);
-            System.out.println(list);
-            return Result.success(list);
+            List<Member> list = projectMapper.getMemberInfo(project,founder);
+            String file_root = static_root+"/projects/"+founder+"/"+project+"/blob/main/";
+            System.out.println(file_root);
+            File main = new File(file_root);
+            File[] lists = main.listFiles();
+            List<FileItem> dir_list = new ArrayList<>();
+            List<FileItem> file_list = new ArrayList<>();
+            for (File file:lists){
+                if (file.isDirectory()){
+                    FileItem dir_item = new FileItem();
+                    dir_item.setIsfile(false);
+                    dir_item.setFilename(file.getName());
+                    dir_item.setUpdateDate(file.lastModified());
+                    dir_list.add(dir_item);
+                }else {
+                    FileItem file_item = new FileItem();
+                    file_item.setIsfile(true);
+                    file_item.setFilename(file.getName());
+                    file_item.setUpdateDate(file.lastModified());
+                    file_list.add(file_item);
+                }
+            }
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("member_list",list);
+            hashMap.put("dir_list",dir_list);
+            hashMap.put("file_list",file_list);
+            return Result.success(hashMap);
         }catch (Exception e){
             System.out.println(e);
             return Result.fail("获取项目信息失败");

@@ -30,5 +30,5 @@ public interface ProjectService {
 
     Result getMembers(String projectid);
 
-    Result getProjectInfo(String projectid);
+    Result getProjectInfo(String project,String founder);
 }

@@ -55,7 +55,7 @@ public class ProjectController {
 
     @PostMapping("/projectinfo")
     @ResponseBody
-    public Result getProjectInfo(@RequestParam("projectid") String projectid){
-        return projectService.getProjectInfo(projectid);
+    public Result getProjectInfo(@RequestParam("project") String project,@RequestParam("founder") String founder){
+        return projectService.getProjectInfo(project,founder);
     }
 }

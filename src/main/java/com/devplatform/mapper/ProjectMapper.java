@@ -23,5 +23,5 @@ public interface ProjectMapper {
 
     List<Team> getMembers(@Param("projectid") String projectid);
 
-    List<Member> getMemberInfo(@Param("projectid") String projectid);
+    List<Member> getMemberInfo(@Param("project") String project,@Param("founder") String founder);
 }
