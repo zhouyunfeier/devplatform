@@ -4,9 +4,19 @@ public class FileItem {
 
     private String filename;
 
+    private String path;
+
     private boolean isfile;
 
     private long updateDate;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getFilename() {
         return filename;

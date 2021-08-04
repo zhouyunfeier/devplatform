@@ -6,12 +6,15 @@ import com.devplatform.entity.Team;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
 @Mapper
 @Repository
 public interface ProjectMapper {
+
+    String getProjectidByNameAndFounder(@Param("founder") String founder,@Param("project") String project);
 
     List<Project> findAllByPage(@Param("start") Integer start, @Param("size") Integer size, @Param("founder") String founder);
 
@@ -21,7 +24,7 @@ public interface ProjectMapper {
 
     int addMember(Team team);
 
-    List<Team> getMembers(@Param("projectid") String projectid);
+    List<Team> getMembers(@Param("founder") String founder,@Param("project") String project);
 
     List<Member> getMemberInfo(@Param("project") String project,@Param("founder") String founder);
 }

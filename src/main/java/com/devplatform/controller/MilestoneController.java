@@ -16,8 +16,8 @@ public class MilestoneController {
 
     @PostMapping("/milestone")
     @ResponseBody
-    public Result getMilestone(@RequestParam("projectid") String projectid){
-        return milestoneService.getAllMilestoneByProjectid(projectid);
+    public Result getMilestone(@RequestParam("founder") String founder,@RequestParam("project") String project){
+        return milestoneService.getAllMilestoneByProjectid(founder,project);
     }
 
     @PostMapping("/savemilestone")

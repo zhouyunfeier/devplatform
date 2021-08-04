@@ -4,15 +4,19 @@ import com.devplatform.entity.PageInfo;
 import com.devplatform.entity.Requirement;
 import com.devplatform.lang.Result;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 public interface RequirementService {
+
+    Result getRequirements(String founder,String project,Integer currentPage);
 
     Result getRequirements(String projectid,Integer currentPage);
 
     PageInfo findAllByPage(Integer currentPage , Integer size , String projectid);
 
-    Result saveRequirement(Requirement requirement);
+    Result saveRequirement(String title, String founder,Date createDate,Date updateDate,String requirementhtml,String requirementtext,
+                           String project_founder,String project);
 
     Result getInfo(String requirementid);
 

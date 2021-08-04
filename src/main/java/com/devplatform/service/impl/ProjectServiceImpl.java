@@ -8,10 +8,16 @@ import com.devplatform.mapper.ProjectMapper;
 import com.devplatform.mapper.UserMapper;
 import com.devplatform.service.ProjectService;
 import com.devplatform.util.GenerateID;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -187,9 +193,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Result getMembers(String projectid) {
+    public Result getMembers(String founder,String project) {
         try {
-            List<Team> teams = projectMapper.getMembers(projectid);
+            List<Team> teams = projectMapper.getMembers(founder,project);
             return Result.success(teams);
         }catch (Exception e){
             System.out.println(e);
@@ -202,34 +208,70 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             List<Member> list = projectMapper.getMemberInfo(project,founder);
             String file_root = static_root+"/projects/"+founder+"/"+project+"/blob/main/";
-            System.out.println(file_root);
-            File main = new File(file_root);
-            File[] lists = main.listFiles();
-            List<FileItem> dir_list = new ArrayList<>();
-            List<FileItem> file_list = new ArrayList<>();
-            for (File file:lists){
-                if (file.isDirectory()){
-                    FileItem dir_item = new FileItem();
-                    dir_item.setIsfile(false);
-                    dir_item.setFilename(file.getName());
-                    dir_item.setUpdateDate(file.lastModified());
-                    dir_list.add(dir_item);
-                }else {
-                    FileItem file_item = new FileItem();
-                    file_item.setIsfile(true);
-                    file_item.setFilename(file.getName());
-                    file_item.setUpdateDate(file.lastModified());
-                    file_list.add(file_item);
-                }
-            }
-            Map<String,Object> map = new HashMap<>();
+
+            Map<String,Object> map = readFile(file_root);
             map.put("member_list",list);
-            map.put("dir_list",dir_list);
-            map.put("file_list",file_list);
             return Result.success(map);
         }catch (Exception e){
             System.out.println(e);
             return Result.fail("获取项目信息失败");
+        }
+    }
+
+    @Override
+    public Map<String,Object> readFile(String file_root) throws IOException {
+        File main = new File(file_root);
+        File[] lists = main.listFiles();
+        List<FileItem> dir_list = new ArrayList<>();
+        List<FileItem> file_list = new ArrayList<>();
+        String readme = null;
+        for (File file:lists){
+            if (file.isDirectory()){
+                FileItem dir_item = new FileItem();
+                dir_item.setIsfile(false);
+                dir_item.setFilename(file.getName());
+                dir_item.setUpdateDate(file.lastModified());
+                dir_item.setPath(file.getPath().substring(21));
+                dir_list.add(dir_item);
+            }else {
+                FileItem file_item = new FileItem();
+                file_item.setIsfile(true);
+                file_item.setFilename(file.getName());
+                file_item.setUpdateDate(file.lastModified());
+                file_item.setPath(file.getPath().substring(21));
+                file_list.add(file_item);
+                if (file.getName().equals("README.md")){
+                    String encoding = "UTF-8";
+                    Long filelength = file.length();
+                    byte[] filecontent = new byte[filelength.intValue()];
+                    FileInputStream in = new FileInputStream(file);
+                    in.read(filecontent);
+                    in.close();
+                    readme = new String(filecontent,encoding);
+                    Parser parser = Parser.builder().build();
+                    Node document = parser.parse(readme);
+                    HtmlRenderer renderer = HtmlRenderer.builder().build();
+                    readme = renderer.render(document);
+                }
+            }
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("dir_list",dir_list);
+        map.put("file_list",file_list);
+        map.put("readme",readme);
+        return map;
+    }
+
+    @Override
+    public Result getProjectSecondInfo(String path) throws IOException {
+        try {
+            String file_root = static_root +"/"+ path;
+            System.out.println(file_root);
+            Map<String,Object> map = readFile(file_root);
+            return Result.success(map);
+        }catch (Exception e){
+            System.out.println(e);
+            return Result.fail("出错了");
         }
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 
 @Controller
 @RequestMapping("/index")
@@ -48,14 +50,19 @@ public class ProjectController {
 
     @PostMapping("/getmembers")
     @ResponseBody
-    public Result getMembers(@RequestParam("projectid") String projectid){
-        System.out.println(projectid);
-        return projectService.getMembers(projectid);
+    public Result getMembers(@RequestParam("founder") String founder,@RequestParam("project") String project){
+        return projectService.getMembers(founder,project);
     }
 
     @PostMapping("/projectinfo")
     @ResponseBody
     public Result getProjectInfo(@RequestParam("project") String project,@RequestParam("founder") String founder){
         return projectService.getProjectInfo(project,founder);
+    }
+
+    @PostMapping("/projectsecondinfo")
+    @ResponseBody
+    public Result getProjectSecondInfo(@RequestParam("path") String path) throws IOException {
+        return projectService.getProjectSecondInfo(path);
     }
 }

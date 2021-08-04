@@ -4,6 +4,7 @@ package com.devplatform.service.impl;
 import com.devplatform.entity.PageInfo;
 import com.devplatform.entity.Requirement;
 import com.devplatform.lang.Result;
+import com.devplatform.mapper.ProjectMapper;
 import com.devplatform.mapper.RequirementMapper;
 import com.devplatform.service.RequirementService;
 import com.devplatform.util.GenerateID;
@@ -20,16 +21,32 @@ public class RequirementServiceImpl implements RequirementService {
     @Autowired
     RequirementMapper requirementMapper;
 
+    @Autowired
+    ProjectMapper projectMapper;
+
     @Override
-    public Result getRequirements(String projectid, Integer currentPage) {
+    public Result getRequirements(String founder,String project, Integer currentPage) {
             int size = 10;
             try {
+                String projectid = projectMapper.getProjectidByNameAndFounder(founder,project);
                 PageInfo<Requirement> pageInfo = findAllByPage(currentPage, size, projectid);
                 return Result.success(pageInfo);
             }catch (Exception e){
                 System.out.println(e);
                 return Result.fail("获取需求信息失败");
             }
+    }
+
+    @Override
+    public Result getRequirements(String projectid, Integer currentPage) {
+        int size = 10;
+        try {
+            PageInfo<Requirement> pageInfo = findAllByPage(currentPage, size, projectid);
+            return Result.success(pageInfo);
+        }catch (Exception e){
+            System.out.println(e);
+            return Result.fail("获取需求信息失败");
+        }
     }
 
     @Override
@@ -69,12 +86,21 @@ public class RequirementServiceImpl implements RequirementService {
     }
 
     @Override
-    public Result saveRequirement(Requirement requirement) {
+    public Result saveRequirement(String title, String founder, Date createDate, Date updateDate, String requirementhtml, String requirementtext,
+                                  String project_founder, String project){
         String requirementid = GenerateID.getGeneratID();
         requirementid = "R" + requirementid;
+        String projectid = projectMapper.getProjectidByNameAndFounder(project_founder,project);
+        System.out.println("projectid:"+projectid);
+        Requirement requirement = new Requirement();
         requirement.setRequirementid(requirementid);
-
-
+        requirement.setFounder(founder);
+        requirement.setProjectid(projectid);
+        requirement.setRequirementtext(requirementtext);
+        requirement.setRequirementhtml(requirementhtml);
+        requirement.setUpdateDate(updateDate);
+        requirement.setCreateDate(createDate);
+        requirement.setTitle(title);
         try {
             requirementMapper.saveRequirement(requirement);
             return getRequirements(requirement.getProjectid(),1);

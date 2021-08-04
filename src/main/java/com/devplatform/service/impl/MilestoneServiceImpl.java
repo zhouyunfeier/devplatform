@@ -4,10 +4,12 @@ package com.devplatform.service.impl;
 import com.devplatform.entity.Milestone;
 import com.devplatform.lang.Result;
 import com.devplatform.mapper.MilestoneMapper;
+import com.devplatform.mapper.ProjectMapper;
 import com.devplatform.service.MilestoneService;
 import com.devplatform.util.GenerateID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.Collection;
 
@@ -16,9 +18,13 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Autowired
     MilestoneMapper milestoneMapper;
 
+    @Autowired
+    ProjectMapper projectMapper;
+
     @Override
-    public Result getAllMilestoneByProjectid(String projectid) {
+    public Result getAllMilestoneByProjectid(String founder,String project) {
         try {
+            String projectid = projectMapper.getProjectidByNameAndFounder(founder,project);
             Collection<Milestone> milestones = milestoneMapper.getAllMilestoneByProjectid(projectid);
             return Result.success(milestones);
         }catch (Exception e){

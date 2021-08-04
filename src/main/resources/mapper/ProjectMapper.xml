@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.devplatform.mapper.ProjectMapper">
 
+    <select id="getProjectidByNameAndFounder" resultType="String">
+        select projectid from project where name = #{project} and founder = #{founder}
+    </select>
+
     <select id="findAllByPage" resultType="com.devplatform.entity.Project">
         select * from project where open = 1
         <if test="founder != null and founder !='' ">
@@ -27,7 +31,7 @@
     </insert>
 
     <select id="getMembers" resultType="com.devplatform.entity.Team">
-        select * from team where projectid = #{projectid}
+        select * from team where projectid = (select projectid from project where name = #{project} and founder = #{founder})
     </select>
 
     <select id="getMemberInfo" resultType="com.devplatform.entity.Member">

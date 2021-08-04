@@ -99,6 +99,13 @@
             <version>5.7.3</version>
         </dependency>
 
+        <!-- markdown解析 -->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.15.2</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
