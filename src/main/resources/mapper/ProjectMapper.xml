@@ -31,7 +31,7 @@
     </insert>
 
     <select id="getMembers" resultType="com.devplatform.entity.Team">
-        select * from team where projectid = (select projectid from project where name = #{project} and founder = #{founder})
+        select * from team where projectid = (select projectid from project where name = #{projectname} and founder = #{founder})
     </select>
 
     <select id="getMemberInfo" resultType="com.devplatform.entity.Member">

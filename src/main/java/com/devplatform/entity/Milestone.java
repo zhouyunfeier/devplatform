@@ -1,15 +1,15 @@
 package com.devplatform.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.sql.Date;
 
-@JsonIgnoreProperties({"handler","hibernateLazyInitializer"})
+
 public class Milestone {
 
     private String milestoneid;
 
-    private String projectid;
+    private String projectname;
+
+    private String projectfounder;
 
     private String milestonename;
 
@@ -31,14 +31,6 @@ public class Milestone {
 
     public void setMilestoneid(String milestoneid) {
         this.milestoneid = milestoneid;
-    }
-
-    public String getProjectid() {
-        return projectid;
-    }
-
-    public void setProjectid(String projectid) {
-        this.projectid = projectid;
     }
 
     public Date getCreateDate() {
@@ -95,5 +87,21 @@ public class Milestone {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProjectname() {
+        return projectname;
+    }
+
+    public void setProjectname(String projectname) {
+        this.projectname = projectname;
+    }
+
+    public String getProjectfounder() {
+        return projectfounder;
+    }
+
+    public void setProjectfounder(String projectfounder) {
+        this.projectfounder = projectfounder;
     }
 }

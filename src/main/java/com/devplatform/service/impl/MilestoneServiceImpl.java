@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Collection;
+import java.sql.Date;
 
 @Service
 public class MilestoneServiceImpl implements MilestoneService {
@@ -22,10 +23,9 @@ public class MilestoneServiceImpl implements MilestoneService {
     ProjectMapper projectMapper;
 
     @Override
-    public Result getAllMilestoneByProjectid(String founder,String project) {
+    public Result getAllMilestoneByProjectid(String projectfounder,String projectname) {
         try {
-            String projectid = projectMapper.getProjectidByNameAndFounder(founder,project);
-            Collection<Milestone> milestones = milestoneMapper.getAllMilestoneByProjectid(projectid);
+            Collection<Milestone> milestones = milestoneMapper.getAllMilestoneByProjectid(projectfounder,projectname);
             return Result.success(milestones);
         }catch (Exception e){
             System.out.println(e);
@@ -36,6 +36,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Override
     public Result saveMilestone(Milestone milestone) {
         try{
+
             milestone.setPercentage(0);
             milestone.setStatus("执行中");
             String milestoneid = "M"+GenerateID.getGeneratID();

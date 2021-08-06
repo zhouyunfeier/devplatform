@@ -13,10 +13,8 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -193,9 +191,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Result getMembers(String founder,String project) {
+    public Result getMembers(String founder,String projectname) {
         try {
-            List<Team> teams = projectMapper.getMembers(founder,project);
+            List<Team> teams = projectMapper.getMembers(founder,projectname);
             return Result.success(teams);
         }catch (Exception e){
             System.out.println(e);

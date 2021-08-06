@@ -7,12 +7,12 @@
     </select>
 
     <select id="getAllMilestoneByProjectid" resultType="com.devplatform.entity.Milestone">
-        select * from milestone where projectid = #{projectid}
+        select * from milestone where projectname = #{projectname} and projectfounder = #{projectfounder}
     </select>
 
     <insert id="saveMilestone">
-        insert into milestone(milestoneid,projectid,createDate,endDate,user,percentage,status,milestonename,description) values
-        (#{milestoneid},#{projectid},#{createDate},#{endDate},#{user},#{percentage},#{status},#{milestonename},#{description})
+        insert into milestone(milestoneid,projectname,projectfounder,createDate,endDate,user,percentage,status,milestonename,description) values
+        (#{milestoneid},#{projectname},#{projectfounder},#{createDate},#{endDate},#{user},#{percentage},#{status},#{milestonename},#{description})
     </insert>
 
 </mapper>

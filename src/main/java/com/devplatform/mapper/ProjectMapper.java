@@ -6,7 +6,6 @@ import com.devplatform.entity.Team;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public interface ProjectMapper {
 
     int addMember(Team team);
 
-    List<Team> getMembers(@Param("founder") String founder,@Param("project") String project);
+    List<Team> getMembers(@Param("founder") String founder,@Param("projectname") String projectname);
 
     List<Member> getMemberInfo(@Param("project") String project,@Param("founder") String founder);
 }

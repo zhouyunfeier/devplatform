@@ -1,12 +1,15 @@
 package com.devplatform.controller;
+import cn.hutool.http.HttpResponse;
 import com.devplatform.entity.EmailMessage;
 import com.devplatform.entity.Project;
 import com.devplatform.lang.Result;
+import com.devplatform.service.FileService;
 import com.devplatform.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -16,6 +19,10 @@ public class ProjectController {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    FileService fileService;
+
 
     @PostMapping("/project")
     @ResponseBody
@@ -50,8 +57,8 @@ public class ProjectController {
 
     @PostMapping("/getmembers")
     @ResponseBody
-    public Result getMembers(@RequestParam("founder") String founder,@RequestParam("project") String project){
-        return projectService.getMembers(founder,project);
+    public Result getMembers(@RequestParam("founder") String founder,@RequestParam("projectname") String projectname){
+        return projectService.getMembers(founder,projectname);
     }
 
     @PostMapping("/projectinfo")
@@ -65,4 +72,14 @@ public class ProjectController {
     public Result getProjectSecondInfo(@RequestParam("path") String path) throws IOException {
         return projectService.getProjectSecondInfo(path);
     }
+
+    @PostMapping("/downloadproject")
+    @ResponseBody
+    public void downloadProject(@RequestParam("projectfounder") String projectfounder,
+                                @RequestParam("projectname") String projectname,
+                                @RequestParam("branch") String branch, HttpServletResponse response){
+        fileService.downloadMoreFile(projectfounder,projectname,branch,response);
+    }
+
+
 }

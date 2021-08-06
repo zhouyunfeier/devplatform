@@ -50,6 +50,7 @@ public class RequirementController {
     @ResponseBody
     @PostMapping("/requirement/delete")
     public Result deleteRequirement(@RequestParam("requirementid") String requirementid,@RequestParam("projectid") String projectid){
+        System.out.println("///"+projectid);
         return requirementService.deleteRequirement(requirementid,projectid);
     }
 

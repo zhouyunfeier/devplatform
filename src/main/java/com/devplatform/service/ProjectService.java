@@ -32,7 +32,7 @@ public interface ProjectService {
 
     boolean eqToken(String token);
 
-    Result getMembers(String founder,String project);
+    Result getMembers(String founder,String projectname);
 
     Result getProjectInfo(String project,String founder);
 
