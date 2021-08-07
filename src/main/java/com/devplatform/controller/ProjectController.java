@@ -8,8 +8,6 @@ import com.devplatform.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -72,14 +70,4 @@ public class ProjectController {
     public Result getProjectSecondInfo(@RequestParam("path") String path) throws IOException {
         return projectService.getProjectSecondInfo(path);
     }
-
-    @PostMapping("/downloadproject")
-    @ResponseBody
-    public void downloadProject(@RequestParam("projectfounder") String projectfounder,
-                                @RequestParam("projectname") String projectname,
-                                @RequestParam("branch") String branch, HttpServletResponse response){
-        fileService.downloadMoreFile(projectfounder,projectname,branch,response);
-    }
-
-
 }

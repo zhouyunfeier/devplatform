@@ -91,7 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
         team.setTeamid("T"+GenerateID.getGeneratID());
         try {
             //每个用户的项目不能同名，不同用户的不同项目可以同名
-            String file_root = static_root + "/projects/"+project.getFounder()+"/"+project.getName()+"/blob/main";
+            String file_root = static_root + "/projects/"+project.getFounder()+"/"+project.getName()+"/blob/"+project.getName()+"-main";
             System.out.println(file_root);
             File file = new File(file_root);
             if (file.exists()){
@@ -205,7 +205,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Result getProjectInfo(String project,String founder) {
         try {
             List<Member> list = projectMapper.getMemberInfo(project,founder);
-            String file_root = static_root+"/projects/"+founder+"/"+project+"/blob/main/";
+            String file_root = static_root+"/projects/"+founder+"/"+project+"/blob/"+project+"-main/";
 
             Map<String,Object> map = readFile(file_root);
             map.put("member_list",list);
