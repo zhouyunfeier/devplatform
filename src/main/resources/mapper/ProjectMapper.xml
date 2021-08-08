@@ -39,4 +39,8 @@
         (select projectid from project where name = #{project} and founder = #{founder})
     </select>
 
+    <select id="getProjectByNameAndFounder" resultType="com.devplatform.entity.Project">
+        select * from project where founder = #{founder} and name = #{project}
+    </select>
+
 </mapper>

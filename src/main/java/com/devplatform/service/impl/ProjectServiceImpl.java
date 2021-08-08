@@ -207,8 +207,10 @@ public class ProjectServiceImpl implements ProjectService {
             List<Member> list = projectMapper.getMemberInfo(project,founder);
             String file_root = static_root+"/projects/"+founder+"/"+project+"/blob/"+project+"-main/";
 
+            Project p = projectMapper.getProjectByNameAndFounder(founder,project);
             Map<String,Object> map = readFile(file_root);
             map.put("member_list",list);
+            map.put("project",p);
             return Result.success(map);
         }catch (Exception e){
             System.out.println(e);
