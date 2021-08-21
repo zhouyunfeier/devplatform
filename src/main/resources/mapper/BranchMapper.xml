@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devplatform.mapper.BranchMapper">
+
+    <select id="getBranches" resultType="com.devplatform.entity.Branch">
+        select * from branch where projectid = (select projectid from project where name = #{projectname} and founder = #{projectfounder})
+    </select>
+
+    <insert id="createBranch">
+        insert into branch(projectid,message,main,branchname,branchstart,branchid,branchpath) values (#{projectid},#{branchmessage},0,#{branchname},#{branchstart},#{branchid},#{branchpath})
+    </insert>
+
+    <select id="isExist" resultType="int">
+        select count(*) from branch where projectid = #{projectid} and branchname = #{branchname}
+    </select>
+</mapper>
